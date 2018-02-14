@@ -1,0 +1,18 @@
+.errors-list__item  {
+  display: flex;
+  justify-content: space-between;
+}
+
+.errors-list__item span {
+  width: 23%;
+}
+
+.errors-list__item button {
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.errors-list__item i {
+  line-height: 25px;
+}
