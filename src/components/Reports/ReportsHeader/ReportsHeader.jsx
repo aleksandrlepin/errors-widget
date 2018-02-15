@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button, Icon, Input, Row, Col } from 'react-materialize';
+import { Modal, Button, Input, Row, Col } from 'react-materialize';
 import './ReportsHeader.css';
-import { prototype } from 'events';
 
 const propTypes = {
   handleReportLoad: PropTypes.func.isRequired,
@@ -27,7 +26,7 @@ const ReportsHeader = (props) => {
                 <option value="reportsType2">Reports Type 2</option>
                 <option value="reportsType3">Reports Type 3</option>
               </Input>
-              <Input onChange={props.handleReportOptions} type="select" label="Options" defaultValue={[1]} multiple>
+              <Input id='id1234' onChange={props.handleReportOptions} type="select" label="Options" defaultValue={[1]} multiple>
                 <option value="errors">Errors</option>
                 <option value="warnings">Warnings</option>
                 <option value="reportsOption3">Reports Option 3</option>

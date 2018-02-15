@@ -11,11 +11,17 @@ const propTypes = {
     reportOptions: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
   }),
+  handleReportDelete: PropTypes.func.isRequired,
+  reportOptions: PropTypes.array.isRequired,
 }
 
 const ReportsBody = (props) => {
   return (
-    <ReportsItem reports={props.reports}/>
+    <ReportsItem
+      reports={props.reports}
+      handleReportDelete={props.handleReportDelete}
+      reportOptions={props.reportOptions}
+    />
   );
 }
 

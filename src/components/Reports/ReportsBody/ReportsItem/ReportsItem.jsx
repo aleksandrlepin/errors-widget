@@ -11,13 +11,15 @@ const propTypes = {
       reportOptions: PropTypes.array.isRequired,
       isFetching: PropTypes.bool.isRequired,
   }),
+  handleReportDelete: PropTypes.func.isRequired,
+  reportOptions: PropTypes.array.isRequired,
 }
 
 const ReportsItem = (props) => {
-
+  const { handleReportDelete, reportOptions } = props;
   const determinate = props.reports.isFetching ? 'indeterminate' : 'determinate';
 
-  const errorItems = props.reports.errors.map((itemA, i, arr) => {
+  const errorItems = props.reports.errors.map((itemA, i, arrA) => {
     const errorItemsB = itemA.values.map((itemB, j, arrB) => {
       return (
         <CollectionItem className="errors-list__item" key={uuid.v4()}>
@@ -25,7 +27,6 @@ const ReportsItem = (props) => {
           <span>timestamp: {itemB.timestamp}</span>
           <span>key: {itemB.key}</span>
           <span>value: {itemB.value}</span>
-          <Button floating className="red" waves="light" icon="clear" />
         </CollectionItem>
       );
     });
@@ -36,14 +37,19 @@ const ReportsItem = (props) => {
         <span>timestamp: {itemA.timestamp}</span>
         <span>errorCode: {itemA.errorCode}</span>
         <span>errorMessage: {itemA.errorMessage}</span>
-        <Button floating className="red" waves="light" icon="clear" />
+        <Button
+          onClick={() => handleReportDelete(i, arrA, props.reports, 'errors', reportOptions)}
+          floating
+          className="red"
+          icon="clear"
+        />
       </CollectionItem>
     );
 
     return Array.prototype.concat(errorItemsA, errorItemsB);
   });
 
-  const warningItems = props.reports.warnings.map((itemA, i, arr) => {
+  const warningItems = props.reports.warnings.map((itemA, i, arrA) => {
     const warningItemsB = itemA.values.map((itemB, j, arrB) => {
       return (
         <CollectionItem className="errors-list__item" key={uuid.v4()}>
@@ -51,7 +57,6 @@ const ReportsItem = (props) => {
           <span>timestamp: {itemB.timestamp}</span>
           <span>key: {itemB.key}</span>
           <span>value: {itemB.value}</span>
-          <Button floating className="red" waves="light" icon="clear" />
         </CollectionItem>
       );
     });
@@ -62,7 +67,12 @@ const ReportsItem = (props) => {
         <span>timestamp: {itemA.timestamp}</span>
         <span>warningCode: {itemA.warningCode}</span>
         <span>warningMessage: {itemA.warningMessage}</span>
-        <Button floating className="red" waves="light" icon="clear" />
+        <Button
+          onClick={() => handleReportDelete(i, arrA, props.reports, 'warnings', reportOptions)}
+          floating
+          className="red"
+          icon="clear"
+        />
       </CollectionItem>
     );
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 import ReportsHeader from './ReportsHeader/ReportsHeader';
 import ReportsBody from './ReportsBody/ReportsBody';
 import  { connect } from 'react-redux';
-import { loadReports, setReportOptions, setReportType } from '../../actions/errorsActions';
+import { loadReports, deleteReports, setReportOptions, setReportType } from '../../actions/errorsActions';
 
 const propTypes = {
   reports: PropTypes.shape({
@@ -13,6 +13,7 @@ const propTypes = {
     reportOptions: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
   }),
+  handleReportDelete: PropTypes.func.isRequired,
 }
 
 class Reports extends Component{
@@ -21,15 +22,21 @@ class Reports extends Component{
   }
 
   render() {
-    const { reports, handleReportLoad, handleReportOptions, handleReportType } = this.props;
+    const { reports, handleReportLoad, handleReportOptions, handleReportType, handleReportDelete } = this.props;
+    const { reportOptions } = this.props.reports;
     return (
       <div>
         <ReportsHeader
           handleReportLoad={handleReportLoad}
           handleReportOptions={handleReportOptions}
           handleReportType={handleReportType}
-          reportOptions={this.props.reports.reportOptions} />
-        <ReportsBody reports={reports} />
+          reportOptions={reportOptions}
+        />
+        <ReportsBody
+          reports={reports}
+          handleReportDelete={handleReportDelete}
+          reportOptions={reportOptions}
+        />
       </div>
     );
   }
@@ -40,8 +47,18 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+
   handleReportLoad(reportOptions) {
     dispatch(loadReports(reportOptions));
+  },
+
+  handleReportDelete(index, arr, reports, arrName, reportOptions) {
+    const result = arr.filter((value, i) => i !== index);
+    const newReports = {
+      errorsHistory: arrName === 'errors' ? result : reports.errors,
+      warningsHistory: arrName === 'warnings' ? result : reports.warnings
+    };
+    dispatch(deleteReports(newReports, reportOptions));
   },
 
   handleReportType(evt) {
@@ -52,7 +69,9 @@ const mapDispatchToProps = (dispatch) => ({
   handleReportOptions(evt) {
     const reportOptions = [...evt.target.selectedOptions].map(o => o.value);
     dispatch(setReportOptions(reportOptions));
-  }
+  },
+
+
 });
 
 Reports.propTypes = propTypes;

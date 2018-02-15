@@ -6,6 +6,7 @@ export const loadReports = (reportOptions) => {
     dispatch(loadingReports());
     return FetchApi.getReports()
     .then(reports => {
+      console.log('reports: ', reports);
       if (reportOptions.includes('errors')) {
         dispatch(loadErrorsSuccess(reports.errorsHistory));
       } else {
@@ -20,6 +21,20 @@ export const loadReports = (reportOptions) => {
     .catch(error => {
        throw(error);
     });
+  }
+}
+
+export const deleteReports = (newData, reportOptions) => {
+  return (dispatch) => {
+    dispatch(loadingReports());
+    return FetchApi.deleteReports(newData)
+      .then(response => {
+        console.log(response);
+        dispatch(loadReports(reportOptions));
+      })
+      .catch(error => {
+        throw(error);
+      });
   }
 }
 
