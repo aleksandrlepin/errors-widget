@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReportsItem from './ReportsItem/ReportsItem';
+import ReportsList from './ReportsList/ReportsList';
 
 const propTypes = {
   reports: PropTypes.shape({
@@ -16,7 +16,7 @@ const propTypes = {
 
 const ReportsBody = (props) => {
   return (
-    <ReportsItem
+    <ReportsList
       reports={props.reports}
       handleReportDelete={props.handleReportDelete}
       reportOptions={props.reportOptions}

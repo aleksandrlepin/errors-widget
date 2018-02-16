@@ -7,12 +7,12 @@ export const loadReports = (reportOptions) => {
     return FetchApi.getReports()
     .then(reports => {
       console.log('reports: ', reports);
-      if (reportOptions.includes('errors')) {
+      if (reportOptions.includes('errors') && reports.errorsHistory) {
         dispatch(loadErrorsSuccess(reports.errorsHistory));
       } else {
         dispatch(loadErrorsSuccess([]));
       }
-      if (reportOptions.includes('warnings')) {
+      if (reportOptions.includes('warnings') && reports.errorsHistory) {
         dispatch(loadWarningsSuccess(reports.warningsHistory));
       } else {
         dispatch(loadWarningsSuccess([]));
@@ -29,11 +29,25 @@ export const deleteReports = (newData, reportOptions) => {
     dispatch(loadingReports());
     return FetchApi.deleteReports(newData)
       .then(response => {
-        console.log(response);
         dispatch(loadReports(reportOptions));
       })
       .catch(error => {
         throw(error);
+      });
+  }
+}
+
+export const clearReports = (reportOptions) => {
+  console.log('reportOptions: ', reportOptions);
+  return (dispatch) => {
+    dispatch(loadingReports());
+    return FetchApi.clearReports()
+    .then(response => {
+      console.log('reportOptions: ', reportOptions);
+        dispatch(loadReports(reportOptions));
+      })
+      .catch(error => {
+        throw (error);
       });
   }
 }

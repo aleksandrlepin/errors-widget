@@ -3,7 +3,7 @@ class FetchApi{
   }
 
   static getReports() {
-    return fetch('https://api.myjson.com/bins/il6sx', {
+    return fetch('https://api.myjson.com/bins/9e1i9', {
       method: 'GET'
     })
       .then(response => {
@@ -16,7 +16,7 @@ class FetchApi{
   }
 
   static deleteReports(newData) {
-    return fetch('https://api.myjson.com/bins/il6sx', {
+    return fetch('https://api.myjson.com/bins/9e1i9', {
       method: 'PUT',
       headers: new Headers({
         'Content-Type': 'application/json'
@@ -29,6 +29,22 @@ class FetchApi{
       .catch(error => {
         return error;
       });
+  }
+
+  static clearReports(newData) {
+  return fetch('https://api.myjson.com/bins/9e1i9', {
+    method: 'PUT',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify({}),
+  })
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      return error;
+    });
   }
 }
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 import ReportsHeader from './ReportsHeader/ReportsHeader';
 import ReportsBody from './ReportsBody/ReportsBody';
 import { connect } from 'react-redux';
-import { loadReports, deleteReports, setReportOptions, setReportType } from '../../actions/errorsActions';
+import { loadReports, deleteReports, setReportOptions, setReportType, clearReports } from '../../actions/errorsActions';
 
 const propTypes = {
   reports: PropTypes.shape({
@@ -22,7 +22,7 @@ class Reports extends Component{
   }
 
   render() {
-    const { reports, handleReportLoad, handleReportOptions, handleReportType, handleReportDelete } = this.props;
+    const { reports, handleReportLoad, handleReportOptions, handleReportType, handleReportDelete, handleClearReports } = this.props;
     const { reportOptions, isFetching } = this.props.reports;
     return (
       <div>
@@ -30,9 +30,10 @@ class Reports extends Component{
           handleReportLoad={handleReportLoad}
           handleReportOptions={handleReportOptions}
           handleReportType={handleReportType}
+          handleClearReports={handleClearReports}
           reportOptions={reportOptions}
           isFetching={isFetching}
-        />
+          />
         <ReportsBody
           reports={reports}
           handleReportDelete={handleReportDelete}
@@ -53,13 +54,17 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(loadReports(reportOptions));
   },
 
-  handleReportDelete(index, arr, reports, arrName, reportOptions) {
+  handleReportDelete(index, arr, reports, type, reportOptions) {
     const result = arr.filter((value, i) => i !== index);
     const newReports = {
-      errorsHistory: arrName === 'errors' ? result : reports.errors,
-      warningsHistory: arrName === 'warnings' ? result : reports.warnings
+      errorsHistory: type === 'error' ? result : reports.errors,
+      warningsHistory: type === 'warning' ? result : reports.warnings
     };
     dispatch(deleteReports(newReports, reportOptions));
+  },
+
+  handleClearReports(reportOptions) {
+    dispatch(clearReports(reportOptions));
   },
 
   handleReportType(evt) {
