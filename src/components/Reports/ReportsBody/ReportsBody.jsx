@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReportsItem from './ReportsItem/ReportsItem';
-import './ReportsBody.css';
 
 const propTypes = {
   reports: PropTypes.shape({

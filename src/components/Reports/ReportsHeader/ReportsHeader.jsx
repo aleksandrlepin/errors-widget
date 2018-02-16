@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button, Input, Row, Col } from 'react-materialize';
+import { Modal, Button, Input, Row, Col, ProgressBar } from 'react-materialize';
 import './ReportsHeader.css';
 
 const propTypes = {
@@ -11,6 +11,7 @@ const propTypes = {
 }
 
 const ReportsHeader = (props) => {
+  const determinate = props.isFetching ? 'indeterminate' : 'determinate';
 
   return (
     <Row className="reports-header">
@@ -36,6 +37,9 @@ const ReportsHeader = (props) => {
           </Row>
         </Modal>
       </Col>
+      <div className="header-preloader" >
+        <ProgressBar className={determinate} />
+      </div>
     </Row>
   );
 }

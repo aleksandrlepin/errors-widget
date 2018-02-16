@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, ProgressBar, Collapsible, CollectionItem, CollapsibleItem, Button} from 'react-materialize';
+import './ReportsItem.css';
+import { Row, Col, Collapsible, CollectionItem, CollapsibleItem, Button} from 'react-materialize';
 import uuid from 'uuid';
 
 const propTypes = {
@@ -17,7 +18,6 @@ const propTypes = {
 
 const ReportsItem = (props) => {
   const { handleReportDelete, reportOptions } = props;
-  const determinate = props.reports.isFetching ? 'indeterminate' : 'determinate';
 
   const errors = props.reports.errors.map((itemA, i, arrA) => {
     const errorItems = (
@@ -104,13 +104,12 @@ const ReportsItem = (props) => {
   });
 
   return (
-    <Row>
+    <Row className="reports-item">
       <Col s={12}>
-        <ProgressBar className={determinate} />
-        <Collapsible accordion>
+        {/* <Collapsible accordion>
           {errors}
           {warnings}
-        </Collapsible>
+        </Collapsible> */}
       </Col>
     </Row>
   );

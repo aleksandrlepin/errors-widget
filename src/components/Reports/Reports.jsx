@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes, { object } from 'prop-types';
 import ReportsHeader from './ReportsHeader/ReportsHeader';
 import ReportsBody from './ReportsBody/ReportsBody';
-import  { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { loadReports, deleteReports, setReportOptions, setReportType } from '../../actions/errorsActions';
 
 const propTypes = {
@@ -23,7 +23,7 @@ class Reports extends Component{
 
   render() {
     const { reports, handleReportLoad, handleReportOptions, handleReportType, handleReportDelete } = this.props;
-    const { reportOptions } = this.props.reports;
+    const { reportOptions, isFetching } = this.props.reports;
     return (
       <div>
         <ReportsHeader
@@ -31,6 +31,7 @@ class Reports extends Component{
           handleReportOptions={handleReportOptions}
           handleReportType={handleReportType}
           reportOptions={reportOptions}
+          isFetching={isFetching}
         />
         <ReportsBody
           reports={reports}
