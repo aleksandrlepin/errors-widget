@@ -3,7 +3,7 @@ class FetchApi{
   }
 
   static getReports() {
-    return fetch('https://api.myjson.com/bins/73wn1', {
+    return fetch('https://api.myjson.com/bins/il6sx', {
       method: 'GET'
     })
       .then(response => {
@@ -16,7 +16,7 @@ class FetchApi{
   }
 
   static deleteReports(newData) {
-    return fetch('https://api.myjson.com/bins/73wn1', {
+    return fetch('https://api.myjson.com/bins/il6sx', {
       method: 'PUT',
       headers: new Headers({
         'Content-Type': 'application/json'

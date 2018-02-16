@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Row, Col, ProgressBar, Collection, CollectionItem, Button} from 'react-materialize';
+import { Row, Col, ProgressBar, Collapsible, CollectionItem, CollapsibleItem, Button} from 'react-materialize';
 import uuid from 'uuid';
 
 const propTypes = {
@@ -19,74 +19,98 @@ const ReportsItem = (props) => {
   const { handleReportDelete, reportOptions } = props;
   const determinate = props.reports.isFetching ? 'indeterminate' : 'determinate';
 
-  const errorItems = props.reports.errors.map((itemA, i, arrA) => {
-    const errorItemsB = itemA.values.map((itemB, j, arrB) => {
-      return (
-        <CollectionItem className="errors-list__item" key={uuid.v4()}>
-          <span>deviceId: {itemB.deviceId}</span>
-          <span>timestamp: {itemB.timestamp}</span>
-          <span>key: {itemB.key}</span>
-          <span>value: {itemB.value}</span>
-        </CollectionItem>
-      );
-    });
-
-    const errorItemsA = (
-      <CollectionItem className="errors-list__item" key={uuid.v4()}>
+  const errors = props.reports.errors.map((itemA, i, arrA) => {
+    const errorItems = (
+      <div className="errors-list__item" key={uuid.v4()}>
+        <span>
+          <Button
+            onClick={() => handleReportDelete(i, arrA, props.reports, 'errors', reportOptions)}
+            floating
+            className="red"
+            icon="clear"
+          />
+        </span>
         <span>deviceId: {itemA.deviceId}</span>
         <span>timestamp: {itemA.timestamp}</span>
         <span>errorCode: {itemA.errorCode}</span>
         <span>errorMessage: {itemA.errorMessage}</span>
-        <Button
-          onClick={() => handleReportDelete(i, arrA, props.reports, 'errors', reportOptions)}
-          floating
-          className="red"
-          icon="clear"
-        />
-      </CollectionItem>
+      </div>
     );
 
-    return Array.prototype.concat(errorItemsA, errorItemsB);
-  });
-
-  const warningItems = props.reports.warnings.map((itemA, i, arrA) => {
-    const warningItemsB = itemA.values.map((itemB, j, arrB) => {
+    const errorValues = itemA.values.map((itemB, j, arrB) => {
       return (
-        <CollectionItem className="errors-list__item" key={uuid.v4()}>
-          <span>deviceId: {itemB.deviceId}</span>
-          <span>timestamp: {itemB.timestamp}</span>
-          <span>key: {itemB.key}</span>
-          <span>value: {itemB.value}</span>
-        </CollectionItem>
+        <tr key={uuid.v4()}>
+          <td><i className="material-icons">info_outline</i></td>
+          <td>deviceId: {itemB.deviceId}</td>
+          <td>timestamp: {itemB.timestamp}</td>
+          <td>key: {itemB.key}</td>
+          <td>value: {itemB.value}</td>
+        </tr>
       );
     });
 
-    const warningItemsA = (
-      <CollectionItem className="errors-list__item" key={uuid.v4()}>
+    const result = (
+      <CollapsibleItem header={errorItems} key={uuid.v4()}>
+        <table className='values-list'>
+          {errorValues}
+        </table>
+      </CollapsibleItem>
+    );
+
+    return result;
+  });
+
+
+  const warnings = props.reports.warnings.map((itemA, i, arrA) => {
+
+    const warningItems = (
+      <div className="errors-list__item" key={uuid.v4()}>
+        <span>
+          <Button
+            onClick={() => handleReportDelete(i, arrA, props.reports, 'warnings', reportOptions)}
+            floating
+            className="red"
+            icon="clear"
+          />
+        </span>
         <span>deviceId: {itemA.deviceId}</span>
         <span>timestamp: {itemA.timestamp}</span>
         <span>warningCode: {itemA.warningCode}</span>
         <span>warningMessage: {itemA.warningMessage}</span>
-        <Button
-          onClick={() => handleReportDelete(i, arrA, props.reports, 'warnings', reportOptions)}
-          floating
-          className="red"
-          icon="clear"
-        />
-      </CollectionItem>
+      </div>
     );
 
-    return Array.prototype.concat(warningItemsA, warningItemsB);
+    const warningValues = itemA.values.map((itemB, j, arrB) => {
+      return (
+        <tr key={uuid.v4()}>
+          <td><i className="material-icons">info_outline</i></td>
+          <td>deviceId: {itemB.deviceId}</td>
+          <td>timestamp: {itemB.timestamp}</td>
+          <td>key: {itemB.key}</td>
+          <td>value: {itemB.value}</td>
+        </tr>
+      );
+    });
+
+    const result = (
+      <CollapsibleItem header={warningItems} key={uuid.v4()}>
+        <table className='values-list'>
+         {warningValues}
+        </table>
+      </CollapsibleItem>
+    );
+
+    return result;
   });
 
   return (
     <Row>
       <Col s={12}>
         <ProgressBar className={determinate} />
-        <Collection className="errors-list">
-          {errorItems}
-          {warningItems}
-        </Collection>
+        <Collapsible accordion>
+          {errors}
+          {warnings}
+        </Collapsible>
       </Col>
     </Row>
   );
