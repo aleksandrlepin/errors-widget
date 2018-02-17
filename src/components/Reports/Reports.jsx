@@ -23,7 +23,7 @@ class Reports extends Component{
 
   render() {
     const { reports, handleReportLoad, handleReportOptions, handleReportType, handleReportDelete, handleClearReports } = this.props;
-    const { reportOptions, isFetching } = this.props.reports;
+    const { reportOptions, reportTypes, isFetching } = this.props.reports;
     return (
       <div>
         <ReportsHeader
@@ -31,6 +31,7 @@ class Reports extends Component{
           handleReportOptions={handleReportOptions}
           handleReportType={handleReportType}
           handleClearReports={handleClearReports}
+          reportTypes={reportTypes}
           reportOptions={reportOptions}
           isFetching={isFetching}
           />
@@ -70,6 +71,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleReportType(evt) {
     const reportType = [...evt.target.selectedOptions].map(o => o.value);
     dispatch(setReportType(reportType));
+    dispatch(setReportOptions([]));
   },
 
   handleReportOptions(evt) {

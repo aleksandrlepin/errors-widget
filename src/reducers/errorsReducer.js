@@ -10,9 +10,13 @@ const errorsReducer = (state = initialState, action) => {
     case types.LOAD_WARNINGS_SUCCESS:
       return { ...state, ...action.payload };
     case types.SET_REPORT_OPRIONS:
-      return { ...state, ...action.payload }
+      return { ...state, ...action.payload };
     case types.SET_REPORT_TYPE:
-      return { ...state, ...action.payload }
+      return {
+        ...state, reportTypes: {
+          ...state.reportTypes, ...action.payload
+        }
+      }
     default:
       return state;
   }

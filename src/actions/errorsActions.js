@@ -81,20 +81,20 @@ export const loadWarningsSuccess = (warnings) => {
   };
 }
 
+export const setReportType = (reportType) => {
+  return {
+    type: types.SET_REPORT_TYPE,
+    payload: {
+      active: reportType[0]
+    }
+  }
+}
+
 export const setReportOptions = (reportOptions) => {
   return {
     type: types.SET_REPORT_OPRIONS,
     payload: {
       reportOptions
-    }
-  }
-}
-
-export const setReportType = (setReportType) => {
-  return {
-    type: types.SET_REPORT_TYPE,
-    payload: {
-      setReportType
     }
   }
 }

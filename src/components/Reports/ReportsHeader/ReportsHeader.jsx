@@ -12,6 +12,7 @@ const propTypes = {
 }
 
 const ReportsHeader = (props) => {
+  const { active } = props.reportTypes;
   const determinate = props.isFetching ? 'indeterminate' : 'determinate';
 
   return (
@@ -19,8 +20,6 @@ const ReportsHeader = (props) => {
       <Col s={9}>
         <h1>Reports</h1>
       </Col>
-      {/* <Col s={2}>
-      </Col> */}
       <Col s={3}>
         <Button onClick={() => props.handleClearReports(props.reportOptions)} waves="light">Clear</Button>
         <Modal header="Reports" trigger={<Button className= "right" >REPORTS</Button>}>
@@ -28,13 +27,13 @@ const ReportsHeader = (props) => {
             <Col className="valign-wrapper">
               <Input onChange={props.handleReportType} type="select" label="Report type" defaultValue="1">
                 <option value="errorsLog">Errors Log</option>
-                <option value="reportsType2">Reports Type 2</option>
-                <option value="reportsType3">Reports Type 3</option>
+                <option value="reportType2">Report Type 2</option>
+                <option value="reportType3">Report Type 3</option>
               </Input>
               <Input onChange={props.handleReportOptions} type="select" label="Options" defaultValue={[1]} multiple>
-                <option value="errors">Errors</option>
-                <option value="warnings">Warnings</option>
-                <option value="reportsOption3">Reports Option 3</option>
+                <option value={props.reportTypes[active][0]}>{props.reportTypes[active][0]}</option>
+                <option value={props.reportTypes[active][1]}>{props.reportTypes[active][1]}</option>
+                <option value={props.reportTypes[active][2]}>{props.reportTypes[active][2]}</option>
               </Input>
               <Button waves="light" modal="close" onClick={() => props.handleReportLoad(props.reportOptions)}>Save</Button>
             </Col>
