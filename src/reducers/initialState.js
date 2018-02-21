@@ -1,6 +1,8 @@
 export default {
-  errors: [],
-  warnings: [],
+  data: {
+    errorsHistory: [],
+    warningsHistory: [],
+  },
   reportTypes: {
     active: 'errorsLog',
     errorsLog: [
@@ -19,6 +21,6 @@ export default {
         'type 3 option 3'
     ],
   },
-  reportOptions: [],
+  reportOptions: ['errors'],
   isFetching: false,
 }

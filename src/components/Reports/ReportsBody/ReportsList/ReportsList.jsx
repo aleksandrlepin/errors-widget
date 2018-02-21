@@ -7,9 +7,11 @@ import uuid from 'uuid';
 
 const propTypes = {
   reports: PropTypes.shape({
-      errors: PropTypes.array.isRequired,
-      warnings: PropTypes.array.isRequired,
-      reportType: PropTypes.string.isRequired,
+      data: PropTypes.shape({
+        errorsHistory: PropTypes.array.isRequired,
+        warningsHistory: PropTypes.array.isRequired,
+      }),
+      reportTypes: PropTypes.object.isRequired,
       reportOptions: PropTypes.array.isRequired,
   }),
   handleReportDelete: PropTypes.func.isRequired,
@@ -18,14 +20,15 @@ const propTypes = {
 
 const ReportsList = (props) => {
 
-  const errors = props.reports.errors.map((item, i, arr) => {
-    return (
-      <ReportsItem
+  const errorsHistory = props.reports.data.errorsHistory.map((item, i, arr) => {
+    if (props.reports.reportOptions.includes('errors')) {
+      return (
+        <ReportsItem
         key={uuid.v4()}
+        data={props.reports.data}
         i={i}
-        arr={arr}
-        reports={props.reports}
-        type="error"
+        historyType="errorsHistory"
+        messageType="error"
         deviceId={item.deviceId}
         timestamp={item.timestamp}
         code={item.errorCode}
@@ -33,18 +36,22 @@ const ReportsList = (props) => {
         values={item.values}
         handleReportDelete={props.handleReportDelete}
         reportOptions={props.reportOptions}
-      />
-    )
+        />
+      )
+    } else {
+      return null;
+    }
   });
 
-  const warnings = props.reports.warnings.map((item, i, arr) => {
-    return (
-      <ReportsItem
+  const warningsHistory = props.reports.data.warningsHistory.map((item, i, arr) => {
+    if (props.reports.reportOptions.includes('warnings')) {
+      return (
+        <ReportsItem
         key={uuid.v4()}
+        data={props.reports.data}
         i={i}
-        arr={arr}
-        reports={props.reports}
-        type="warning"
+        historyType="warningsHistory"
+        messageType="warning"
         deviceId={item.deviceId}
         timestamp={item.timestamp}
         code={item.warningCode}
@@ -52,16 +59,19 @@ const ReportsList = (props) => {
         values={item.values}
         handleReportDelete={props.handleReportDelete}
         reportOptions={props.reportOptions}
-      />
-    )
+        />
+      )
+    } else {
+      return null;
+    }
   });
 
   return (
     <Row className="reports-item">
       <Col s={12}>
         <Collapsible accordion>
-          {errors}
-          {warnings}
+          {errorsHistory}
+          {warningsHistory}
         </Collapsible>
       </Col>
     </Row>

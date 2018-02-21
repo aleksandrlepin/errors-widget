@@ -4,9 +4,11 @@ import ReportsList from './ReportsList/ReportsList';
 
 const propTypes = {
   reports: PropTypes.shape({
-    errors: PropTypes.array.isRequired,
-    warnings: PropTypes.array.isRequired,
-    reportType: PropTypes.string.isRequired,
+    data: PropTypes.shape({
+      errorsHistory: PropTypes.array.isRequired,
+      warningsHistory: PropTypes.array.isRequired,
+    }),
+    reportTypes: PropTypes.object.isRequired,
     reportOptions: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
   }),

@@ -5,9 +5,7 @@ const errorsReducer = (state = initialState, action) => {
   switch(action.type) {
     case types.LOADING_REPORTS:
       return { ...state, ...action.payload };
-    case types.LOAD_ERRORS_SUCCESS:
-      return { ...state, ...action.payload };
-    case types.LOAD_WARNINGS_SUCCESS:
+    case types.LOAD_DATA_SUCCESS:
       return { ...state, ...action.payload };
     case types.SET_REPORT_OPRIONS:
       return { ...state, ...action.payload };

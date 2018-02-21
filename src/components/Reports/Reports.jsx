@@ -7,9 +7,11 @@ import { loadReports, deleteReports, setReportOptions, setReportType, clearRepor
 
 const propTypes = {
   reports: PropTypes.shape({
-    errors: PropTypes.array.isRequired,
-    warnings: PropTypes.array.isRequired,
-    reportType: PropTypes.string.isRequired,
+    data: PropTypes.shape({
+      errorsHistory: PropTypes.array.isRequired,
+      warningsHistory: PropTypes.array.isRequired,
+    }),
+    reportTypes: PropTypes.object.isRequired,
     reportOptions: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
   }),
@@ -55,13 +57,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(loadReports(reportOptions));
   },
 
-  handleReportDelete(index, arr, reports, type, reportOptions) {
-    const result = arr.filter((value, i) => i !== index);
-    const newReports = {
-      errorsHistory: type === 'error' ? result : reports.errors,
-      warningsHistory: type === 'warning' ? result : reports.warnings
-    };
-    dispatch(deleteReports(newReports, reportOptions));
+  handleReportDelete(index, historyType, data, reportOptions) {
+    dispatch(deleteReports(index, historyType, data, reportOptions));
   },
 
   handleClearReports(reportOptions) {

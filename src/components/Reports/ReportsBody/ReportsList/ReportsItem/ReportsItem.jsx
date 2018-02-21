@@ -5,6 +5,10 @@ import { CollapsibleItem, Button } from 'react-materialize';
 import uuid from 'uuid';
 
 const propTypes = {
+  data: PropTypes.shape({
+    errorsHistory: PropTypes.array.isRequired,
+    warningsHistory: PropTypes.array.isRequired,
+  }),
   deviceId: PropTypes.string.isRequired,
   timestamp: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
@@ -16,7 +20,7 @@ const propTypes = {
 
 const ReportsItem = (props) => {
 
-  const { deviceId, timestamp, code, message, values, handleReportDelete, reportOptions } = props;
+  const { deviceId, timestamp, code, message, values, handleReportDelete, reportOptions, i, historyType, data } = props;
 
   const valuesItems = values.map((item, i, arr) => {
     return (
@@ -36,11 +40,11 @@ const ReportsItem = (props) => {
     <div className="errors-list__item" key={uuid.v4()}>
       <span>deviceId: {deviceId}</span>
       <span>timestamp: {timestamp}</span>
-      <span>{props.type}Code: {code}</span>
-      <span>{props.type}Message: {message}</span>
+      <span>{props.messageType}Code: {code}</span>
+      <span>{props.messageType}Message: {message}</span>
       <span>
         <Button
-          onClick={() => handleReportDelete(props.i, props.arr, props.reports, props.type, reportOptions)}
+          onClick={() => handleReportDelete(i, historyType, data, reportOptions)}
           floating
           className="red right"
           icon="clear"

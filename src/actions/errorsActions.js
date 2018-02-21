@@ -5,18 +5,9 @@ export const loadReports = (reportOptions) => {
   return (dispatch) => {
     dispatch(loadingReports());
     return FetchApi.getReports()
-    .then(reports => {
-      console.log('reports: ', reports);
-      if (reportOptions.includes('errors') && reports.errorsHistory) {
-        dispatch(loadErrorsSuccess(reports.errorsHistory));
-      } else {
-        dispatch(loadErrorsSuccess([]));
-      }
-      if (reportOptions.includes('warnings') && reports.errorsHistory) {
-        dispatch(loadWarningsSuccess(reports.warningsHistory));
-      } else {
-        dispatch(loadWarningsSuccess([]));
-      }
+    .then(data => {
+      console.log('data: ', data);
+        dispatch(loadDataSuccess(data));
     })
     .catch(error => {
        throw(error);
@@ -24,7 +15,10 @@ export const loadReports = (reportOptions) => {
   }
 }
 
-export const deleteReports = (newData, reportOptions) => {
+export const deleteReports = (index, historyType, data, reportOptions) => {
+  const newHistory = data[historyType].filter((value, i) => i !== index);
+  const newData = {...data};
+  newData[historyType] = newHistory;
   return (dispatch) => {
     dispatch(loadingReports());
     return FetchApi.deleteReports(newData)
@@ -38,12 +32,10 @@ export const deleteReports = (newData, reportOptions) => {
 }
 
 export const clearReports = (reportOptions) => {
-  console.log('reportOptions: ', reportOptions);
   return (dispatch) => {
     dispatch(loadingReports());
     return FetchApi.clearReports()
     .then(response => {
-      console.log('reportOptions: ', reportOptions);
         dispatch(loadReports(reportOptions));
       })
       .catch(error => {
@@ -61,21 +53,11 @@ export const loadingReports = () => {
   };
 }
 
-export const loadErrorsSuccess = (errors) => {
+export const loadDataSuccess = (data) => {
   return {
-    type: types.LOAD_ERRORS_SUCCESS,
+    type: types.LOAD_DATA_SUCCESS,
     payload: {
-      errors,
-      isFetching: false
-    }
-  };
-}
-
-export const loadWarningsSuccess = (warnings) => {
-  return {
-    type: types.LOAD_WARNINGS_SUCCESS,
-    payload: {
-      warnings,
+      data,
       isFetching: false
     }
   };
